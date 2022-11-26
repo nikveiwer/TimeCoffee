@@ -34,7 +34,6 @@ const Categories = () => {
               <Tab value="raf" label="Раф" {...a11yProps("raf")} />
             </Tabs>
           </Box>
-    
         </Box>
       );
 }

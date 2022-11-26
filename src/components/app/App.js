@@ -2,6 +2,7 @@
 import Header from '../header/header';
 import Categories from '../categories/categories';
 import Sort from '../sort/sort';
+import CoffeeCard from '../coffeeCard/coffeeCard';
 
 import { Container } from '@mui/material';
 import { display } from '@mui/system';
@@ -20,6 +21,8 @@ function App() {
         <Categories></Categories>
         <Sort></Sort>
       </Container>
+
+      <CoffeeCard></CoffeeCard>
       
     </>
   );

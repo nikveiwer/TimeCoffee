@@ -6,10 +6,9 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 
 const options = [
-  'Show some love to MUI',
-  'Show all notification content',
-  'Hide sensitive notification content',
-  'Hide all notification content',
+  'Популярности',
+  'Цене',
+  'Алфавиту'
 ];
 
 
@@ -49,7 +48,7 @@ const Sort = () => {
             onClick={handleClickListItem}
           >
             <ListItemText
-              primary="When device is locked"
+              primary="Сортировка по:"
               secondary={options[selectedIndex]}
             />
           </ListItem>
@@ -67,7 +66,7 @@ const Sort = () => {
           {options.map((option, index) => (
             <MenuItem
               key={option}
-              disabled={index === 0}
+              disabled={false}//index === 0
               selected={index === selectedIndex}
               onClick={(event) => handleMenuItemClick(event, index)}
             >
