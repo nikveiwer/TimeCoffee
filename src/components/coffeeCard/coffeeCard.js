@@ -4,6 +4,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions } from '@mui/material';
+import { v4 as uuidv4 } from 'uuid';
 
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -19,8 +20,8 @@ function a11yProps(index) {
 const CoffeeCard = (props) => {
     const { imageUrl, name, milks, sizes, price, category, raiting } = props;
 
-    const [milk, setMilk] = React.useState('default');
-    const [size, setSize] = React.useState('0.4');
+    const [milk, setMilk] = React.useState(milks[0] || milks[1]);
+    const [size, setSize] = React.useState(sizes[0] || sizes[1] || sizes[2]);
     const [count, setCount] = React.useState(0);
 
     const handleMilk = (event, newValue) => {
@@ -34,6 +35,9 @@ const CoffeeCard = (props) => {
     const onAdd = () => {
         setCount((count) => count + 1);
     };
+
+    const milkNames = ['Обычное', 'Растительное'];
+    const sizeNames = ['0.2л', '0.4л', '0.6л'];
 
     return (
         <Card sx={{ maxWidth: 345 }}>
@@ -50,8 +54,19 @@ const CoffeeCard = (props) => {
                 <Box margin={'0 auto'} sx={{ width: '80%' }}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                         <Tabs fontSize={'5px'} value={milk} onChange={handleMilk} aria-label="Milk">
-                            <Tab value="default" label="Обычное" {...a11yProps('all')} />
-                            <Tab value="grown" label="Растительное" {...a11yProps('capp')} />
+                            {/* <Tab value="default" label="Обычное" {...a11yProps('all')} />
+                            <Tab value="grown" label="Растительное" {...a11yProps('capp')} /> */}
+                            {milks.map((milkTab, i) => {
+                                return (
+                                    <Tab
+                                        key={uuidv4()}
+                                        value={milkTab}
+                                        disabled={!milkTab}
+                                        label={milkNames[i]}
+                                        {...a11yProps(milkTab)}
+                                    />
+                                );
+                            })}
                         </Tabs>
                     </Box>
                 </Box>
@@ -59,9 +74,20 @@ const CoffeeCard = (props) => {
                 <Box margin={'10px auto'} sx={{ width: '90%' }}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                         <Tabs value={size} onChange={handleSize} aria-label="basic tabs example">
-                            <Tab value="0.2" label="0.2л" {...a11yProps('all')} />
+                            {/* <Tab value="0.2" label="0.2л" {...a11yProps('all')} />
                             <Tab value="0.4" label="0.4л" {...a11yProps('capp')} />
-                            <Tab value="0.6" label="0.6л" {...a11yProps('raf')} />
+                            <Tab value="0.6" label="0.6л" {...a11yProps('raf')} /> */}
+                            {sizes.map((size, i) => {
+                                return (
+                                    <Tab
+                                        key={uuidv4()}
+                                        value={size}
+                                        disabled={!size}
+                                        label={sizeNames[i]}
+                                        {...a11yProps(size)}
+                                    />
+                                );
+                            })}
                         </Tabs>
                     </Box>
                 </Box>

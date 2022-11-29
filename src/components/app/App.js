@@ -3,9 +3,9 @@ import Header from '../header/header';
 import Categories from '../categories/categories';
 import Sort from '../sort/sort';
 import CoffeeCard from '../coffeeCard/coffeeCard';
+import CoffeeList from '../coffeeList/coffeeList';
 
 import { Container } from '@mui/material';
-import { display } from '@mui/system';
 
 
 function App() {
@@ -22,7 +22,7 @@ function App() {
         <Sort></Sort>
       </Container>
 
-      <CoffeeCard></CoffeeCard>
+      <CoffeeList></CoffeeList>
       
     </>
   );
