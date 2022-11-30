@@ -45,9 +45,15 @@ const Categories = () => {
     };
 
     return (
-        <Box sx={{ width: '590px' }}>
+        <Box sx={{ maxWidth: '700px' }}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                <Tabs
+                    value={value}
+                    onChange={handleChange}
+                    variant="scrollable"
+                    scrollButtons
+                    allowScrollButtonsMobile
+                    aria-label="scrollable force tabs example">
                     {categories.map(({ value, label }) => {
                         return (
                             <Tab key={value} value={value} label={label} {...a11yProps(value)} />

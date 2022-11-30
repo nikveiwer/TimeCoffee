@@ -40,7 +40,7 @@ const CoffeeCard = (props) => {
     const sizeNames = ['0.2л', '0.4л', '0.6л'];
 
     return (
-        <Card sx={{ maxWidth: 345 }}>
+        <Card sx={{ width: '320px' }}>
             <CardMedia component="img" height="140" src={imageUrl} alt="coffee cap" />
             <CardContent>
                 <Typography textAlign={'center'} gutterBottom variant="h5" component="div">
