@@ -59,7 +59,7 @@ const CoffeeCard = (props) => {
                             {milks.map((milkTab, i) => {
                                 return (
                                     <Tab
-                                        key={uuidv4()}
+                                        key={i}
                                         value={milkTab}
                                         disabled={!milkTab}
                                         label={milkNames[i]}
@@ -80,7 +80,7 @@ const CoffeeCard = (props) => {
                             {sizes.map((size, i) => {
                                 return (
                                     <Tab
-                                        key={uuidv4()}
+                                        key={i}
                                         value={size}
                                         disabled={!size}
                                         label={sizeNames[i]}
