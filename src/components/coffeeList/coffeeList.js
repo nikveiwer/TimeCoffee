@@ -21,49 +21,48 @@ const CoffeeList = () => {
         dispatch(fetchCoffees());
     }, []);
 
-    const whatShouldBeRendered = (status) => {
-        switch (status) {
-            case 'loading':
-                const skeletons = [];
-                for (let i = 0; i < 9; i++) {
-                    skeletons.push(
-                        <Grid2 xs={'auto'}>
-                            <ViewSceleton></ViewSceleton>
-                        </Grid2>,
-                    );
-                }
-                return skeletons;
-            case 'norm':
-                return coffees.map((card) => {
-                    return (
-                        <Grid2 key={card.id} xs={'auto'}>
-                            <CoffeeCard {...card}></CoffeeCard>
-                        </Grid2>
-                    );
-                });
-            case 'error':
-                return (
-                    <Alert variant="outlined" severity="error">
-                        К сожалению мы не смогли загрузить кофе
-                    </Alert>
-                );
-        }
-    };
-
     return (
         <Container>
             <Grid2 sx={{ justifyContent: 'center' }} container spacing={2}>
-                {whatShouldBeRendered(coffeesLoadingStatus)}
+                {whatShouldBeRendered(coffeesLoadingStatus, coffees)}
             </Grid2>
         </Container>
     );
 };
 
+const whatShouldBeRendered = (status, data) => {
+    switch (status) {
+        case 'loading':
+            return [...new Array(7)].map((item) => {
+                return (
+                    <Grid2 xs={'auto'}>
+                        <ViewSceleton></ViewSceleton>
+                    </Grid2>
+                );
+            });
+
+        case 'norm':
+            return data.map((card) => {
+                return (
+                    <Grid2 key={card.id} xs={'auto'}>
+                        <CoffeeCard {...card}></CoffeeCard>
+                    </Grid2>
+                );
+            });
+        case 'error':
+            return (
+                <Alert variant="outlined" severity="error">
+                    К сожалению мы не смогли загрузить кофе
+                </Alert>
+            );
+    }
+};
+
 const ViewSceleton = () => {
     return (
         <Stack spacing={1}>
-            <Skeleton variant="rectangular" width={320} height={170} />
-            <Skeleton variant="rounded" width={320} height={170} />
+            <Skeleton variant="rectangular" width={320} height={200} />
+            <Skeleton variant="rounded" width={320} height={190} />
             <Skeleton variant="text" sx={{ fontSize: '1rem' }} />
         </Stack>
     );

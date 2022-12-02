@@ -41,7 +41,7 @@ const CoffeeCard = (props) => {
 
     return (
         <Card sx={{ width: '320px' }}>
-            <CardMedia component="img" height="140" src={imageUrl} alt="coffee cap" />
+            <CardMedia component="img" height="190" src={imageUrl} alt="coffee cap" />
             <CardContent>
                 <Typography textAlign={'center'} gutterBottom variant="h5" component="div">
                     {name}

@@ -3,6 +3,7 @@ import Categories from '../categories/categories';
 import Sort from '../sort/sort';
 import CoffeeCard from '../coffeeCard/coffeeCard';
 import CoffeeList from '../coffeeList/coffeeList';
+import Basket from '../basket/basket';
 
 import { Container } from '@mui/material';
 import Grid2 from '@mui/material/Unstable_Grid2';
@@ -16,17 +17,19 @@ function App() {
                 sx={{
                     paddingTop: '50px',
                 }}>
-                <Grid2 container sx={{ justifyContent: 'space-between' }}>
+                {/* <Grid2 container sx={{ justifyContent: 'space-between' }}>
                     <Grid2 md={8} lg={8}>
                         <Categories></Categories>
                     </Grid2>
                     <Grid2 md={3} lg={3}>
                         <Sort></Sort>
                     </Grid2>
-                </Grid2>
+                </Grid2> */}
+
+                <Basket></Basket>
             </Container>
 
-            <CoffeeList></CoffeeList>
+            {/* <CoffeeList></CoffeeList> */}
         </>
     );
 }

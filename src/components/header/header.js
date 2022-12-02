@@ -36,7 +36,12 @@ const Header = () => {
                                 <br /> в любой нашей точке без очереди
                             </span>
                         </Typography>
-                        <Button variant="contained" endIcon={<ShoppingBasketIcon />}>
+                        <Button
+                            sx={{
+                                width: '170px',
+                            }}
+                            variant="contained"
+                            endIcon={<ShoppingBasketIcon />}>
                             <Box textTransform={'none'} mr={'10px'}>
                                 424р.
                             </Box>
