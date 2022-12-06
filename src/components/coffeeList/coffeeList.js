@@ -5,7 +5,6 @@ import { fetchCoffees } from './coffeeSlice';
 
 import CoffeeCard from '../coffeeCard/coffeeCard';
 
-import { Container } from '@mui/material';
 import Grid2 from '@mui/material/Unstable_Grid2';
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
@@ -16,26 +15,31 @@ const CoffeeList = () => {
 
     const coffees = useSelector((state) => state.coffees.coffees);
     const coffeesLoadingStatus = useSelector((state) => state.coffees.coffeesLoadingStatus);
+    const category = useSelector((state) => state.filters.category);
 
     useEffect(() => {
-        dispatch(fetchCoffees());
-    }, []);
+        dispatch(
+            fetchCoffees(
+                `https://6388ba57a4bb27a7f78ffb13.mockapi.io/coffees?${
+                    category === 'all' ? null : `category=${category}`
+                }&sortBy=price`,
+            ),
+        );
+    }, [category]);
 
     return (
-        <Container>
-            <Grid2 sx={{ justifyContent: 'center' }} container spacing={2}>
-                {whatShouldBeRendered(coffeesLoadingStatus, coffees)}
-            </Grid2>
-        </Container>
+        <Grid2 sx={{ justifyContent: 'center' }} container spacing={2}>
+            {whatShouldBeRendered(coffeesLoadingStatus, coffees)}
+        </Grid2>
     );
 };
 
 const whatShouldBeRendered = (status, data) => {
     switch (status) {
         case 'loading':
-            return [...new Array(7)].map((item) => {
+            return [...new Array(7)].map((item, index) => {
                 return (
-                    <Grid2 xs={'auto'}>
+                    <Grid2 key={index} xs={'auto'}>
                         <ViewSceleton></ViewSceleton>
                     </Grid2>
                 );

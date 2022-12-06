@@ -6,9 +6,9 @@ const initialState = {
     coffeesLoadingStatus: 'norm',
 };
 
-export const fetchCoffees = createAsyncThunk('coffees/fetchCoffees', () => {
+export const fetchCoffees = createAsyncThunk('coffees/fetchCoffees', (adress) => {
     const { request } = useHttp();
-    return request('https://6388ba57a4bb27a7f78ffb13.mockapi.io/coffees');
+    return request(adress);
 });
 
 const coffeesSlice = createSlice({

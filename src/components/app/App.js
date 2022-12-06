@@ -1,12 +1,10 @@
 import Header from '../header/header';
-import Categories from '../categories/categories';
-import Sort from '../sort/sort';
-import CoffeeCard from '../coffeeCard/coffeeCard';
-import CoffeeList from '../coffeeList/coffeeList';
-import Basket from '../basket/basket';
+import MainPage from '../pages/MainPage';
+import Cart from '../pages/Cart';
 
 import { Container } from '@mui/material';
-import Grid2 from '@mui/material/Unstable_Grid2';
+
+import { Routes, Route } from 'react-router-dom';
 
 function App() {
     return (
@@ -17,19 +15,11 @@ function App() {
                 sx={{
                     paddingTop: '50px',
                 }}>
-                {/* <Grid2 container sx={{ justifyContent: 'space-between' }}>
-                    <Grid2 md={8} lg={8}>
-                        <Categories></Categories>
-                    </Grid2>
-                    <Grid2 md={3} lg={3}>
-                        <Sort></Sort>
-                    </Grid2>
-                </Grid2> */}
-
-                <Basket></Basket>
+                <Routes>
+                    <Route path="/" element={<MainPage />}></Route>
+                    <Route path="/cart" element={<Cart />}></Route>
+                </Routes>
             </Container>
-
-            {/* <CoffeeList></CoffeeList> */}
         </>
     );
 }

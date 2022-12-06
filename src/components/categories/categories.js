@@ -1,4 +1,6 @@
-import * as React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { categoryChanged } from '../coffeeList/filtersSlice';
+
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
@@ -11,7 +13,9 @@ function a11yProps(index) {
 }
 
 const Categories = () => {
-    const [value, setValue] = React.useState('all');
+    const dispatch = useDispatch();
+
+    const category = useSelector((state) => state.filters.category);
 
     const categories = [
         {
@@ -41,14 +45,14 @@ const Categories = () => {
     ];
 
     const handleChange = (event, newValue) => {
-        setValue(newValue);
+        dispatch(categoryChanged(newValue));
     };
 
     return (
         <Box sx={{ maxWidth: '700px' }}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <Tabs
-                    value={value}
+                    value={category}
                     onChange={handleChange}
                     variant="scrollable"
                     scrollButtons

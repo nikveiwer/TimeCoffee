@@ -7,6 +7,12 @@ import Menu from '@mui/material/Menu';
 
 const options = ['Популярности', 'Цене', 'Алфавиту'];
 
+const opt = [
+    {
+        label: 'Более популярные',
+    },
+];
+
 const Sort = () => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [selectedIndex, setSelectedIndex] = React.useState(1);

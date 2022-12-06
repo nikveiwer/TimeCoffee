@@ -4,19 +4,62 @@ import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import Typography from '@mui/material/Typography';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Stack from '@mui/material/Stack';
+import MoodBadIcon from '@mui/icons-material/MoodBad';
+import Button from '@mui/material/Button';
+import CoffeeIcon from '@mui/icons-material/Coffee';
 
-import Card from '@mui/material/Card';
-import CardMedia from '@mui/material/CardMedia';
-import CardHeader from '@mui/material/CardHeader';
-import Avatar from '@mui/material/Avatar';
-import IconButton, { IconButtonProps } from '@mui/material/IconButton';
-import CancelIcon from '@mui/icons-material/Cancel';
-import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
-import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import { Link } from 'react-router-dom';
+
+import BsaketCard from '../basketCard/basketCard';
 
 const Basket = () => {
     return (
-        <Container maxWidth={"md"}>
+        <ViewFullBasket></ViewFullBasket>
+        // <ViewEmptyBasket></ViewEmptyBasket>
+    );
+};
+
+const ViewEmptyBasket = () => {
+    return (
+        <Container
+            maxWidth={'md'}
+            sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+            }}>
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                }}>
+                <Typography mr={2} fontSize={'30px'} variant="h6" component="h2">
+                    Корзина пуста
+                </Typography>
+
+                <MoodBadIcon sx={{ width: '40px', height: '40px' }}></MoodBadIcon>
+            </Box>
+
+            <Typography mt={2} color={'grey'} fontSize={'20px'} variant="h6" component="h3">
+                Скорее всего вы ничего не заказали.
+            </Typography>
+
+            <CoffeeIcon
+                color="disabled"
+                sx={{ width: '150px', height: '150px', marginTop: '40px' }}></CoffeeIcon>
+
+            <Button sx={{ marginTop: '50px' }} variant="contained">
+                Вернуться назад
+            </Button>
+        </Container>
+    );
+};
+
+const ViewFullBasket = () => {
+    return (
+        <Container maxWidth={'md'}>
             <Box
                 sx={{
                     display: 'flex',
@@ -32,7 +75,12 @@ const Basket = () => {
                         alignItems: 'center',
                     }}>
                     <ShoppingBasketIcon sx={{ width: 60, height: 60 }} />
-                    <Typography ml={1} fontSize={'25px'} variant="h6" component="h2">
+                    <Typography
+                        // color={'#1976d2'}
+                        ml={1}
+                        fontSize={'25px'}
+                        variant="h6"
+                        component="h2">
                         Корзина
                     </Typography>
                 </Box>
@@ -51,51 +99,37 @@ const Basket = () => {
                 </Box>
             </Box>
 
-            <Stack spacing={2}>
-
-                    <Card sx={{"width": "100%"}}>
-                        {/* <CardMedia component="img" height="50" width={50} src={"https://img.freepik.com/premium-photo/ice-cappuccino-cool-beverage-cafe-view_6351-1562.jpg"} alt="coffee cap" /> */}
-                        <CardHeader
-                            avatar={
-                            <Avatar src={"https://img.freepik.com/premium-photo/ice-cappuccino-cool-beverage-cafe-view_6351-1562.jpg"} aria-label="basketCard">
-                            </Avatar>
-                            }
-                            action={
-                                <Box sx={{
-                                    display: "flex",
-                                    justifyContent: "space-between"
-                                }}>
-
-                                    <Box sx={{
-                                        display: "flex",
-                                        justifyContent: "space-between"
-                                    }}>
-                                        <IconButton aria-label="mines">
-                                            <ArrowLeftIcon/>
-                                        </IconButton>
-                                        <IconButton aria-label="plus">
-                                            <ArrowRightIcon/>
-                                        </IconButton>
-                                    </Box>
-
-                                    <Typography mr={"150px"} fontSize={'20px'} variant="h6" component="h3">
-                                        125p.
-                                    </Typography>
-                                    <IconButton aria-label="delete">
-                                        <CancelIcon></CancelIcon>
-                                    </IconButton>
-                                </Box>
-                            }
-                            title="Shrimp and Chorizo Paella"
-                            subheader="September 14, 2016"
-                            sx={{
-                                fontSize: "30px"
-                            }}
-                        />
-                        
-                    </Card>
-
+            <Stack mt={'70px'} spacing={2}>
+                <BsaketCard></BsaketCard>
             </Stack>
+
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginTop: '40px',
+                }}>
+                <Box>
+                    <Typography color={'grey'} ml={1} fontSize={'17px'} variant="h6" component="h2">
+                        Всего кофе заказано: <span style={{ color: 'black' }}>3шт.</span>
+                    </Typography>
+                    <Link style={{ textDecoration: 'none' }} to="/">
+                        <Button sx={{ marginTop: '20px' }} variant="outlined">
+                            Вернуться назад
+                        </Button>
+                    </Link>
+                </Box>
+
+                <Box>
+                    <Typography color={'grey'} ml={1} fontSize={'17px'} variant="h6" component="h2">
+                        Общая сумма: <span style={{ color: '#1976d2' }}>424р.</span>
+                    </Typography>
+                    <Button sx={{ marginTop: '20px' }} variant="contained">
+                        Оплатить заказ
+                    </Button>
+                </Box>
+            </Box>
         </Container>
     );
 };

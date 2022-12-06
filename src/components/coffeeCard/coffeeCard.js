@@ -106,7 +106,7 @@ const CoffeeCard = (props) => {
                             fontFamily: `"Roboto","Helvetica","Arial",sans-serif`,
                             fontWeight: '400',
                         }}>
-                        {500 + 'р.'}
+                        {price + 'р.'}
                     </Box>
                     <Button onClick={onAdd} size="small" color="primary">
                         + Добавить {count}

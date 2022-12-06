@@ -84,7 +84,7 @@ export const coffees = [
         milks: ['default', 'grown'],
         sizes: ['', '0.4', ''],
         price: 143,
-        category: 'moc',
+        category: 'am',
         raiting: 3,
     },
     {
