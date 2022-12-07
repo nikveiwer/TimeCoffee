@@ -1,3 +1,6 @@
+import { useDispatch, useSelector } from 'react-redux';
+import { sortChanged } from '../coffeeList/filtersSlice';
+
 import * as React from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -5,26 +8,44 @@ import ListItemText from '@mui/material/ListItemText';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 
-const options = ['Популярности', 'Цене', 'Алфавиту'];
-
 const opt = [
     {
         label: 'Более популярные',
+        flt: 'raiting desc',
+    },
+    {
+        label: 'Менее популярные',
+        flt: 'raiting asc',
+    },
+    {
+        label: 'Более дорогие',
+        flt: 'price desc',
+    },
+    {
+        label: 'Менее дорогие',
+        flt: 'price asc',
+    },
+    {
+        label: 'Алфавиту',
+        flt: 'name asc',
     },
 ];
 
 const Sort = () => {
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const [selectedIndex, setSelectedIndex] = React.useState(1);
+    const [selectedIndex, setSelectedIndex] = React.useState(0);
     const open = Boolean(anchorEl);
+
+    const dispatch = useDispatch();
 
     const handleClickListItem = (event) => {
         setAnchorEl(event.currentTarget);
     };
 
-    const handleMenuItemClick = (event, index) => {
+    const handleMenuItemClick = (event, index, flt) => {
         setSelectedIndex(index);
         setAnchorEl(null);
+        dispatch(sortChanged(flt));
     };
 
     const handleClose = () => {
@@ -42,7 +63,7 @@ const Sort = () => {
                     aria-label="when device is locked"
                     aria-expanded={open ? 'true' : undefined}
                     onClick={handleClickListItem}>
-                    <ListItemText primary="Сортировка по:" secondary={options[selectedIndex]} />
+                    <ListItemText primary="Сортировка по:" secondary={opt[selectedIndex].label} />
                 </ListItem>
             </List>
             <Menu
@@ -54,13 +75,13 @@ const Sort = () => {
                     'aria-labelledby': 'lock-button',
                     role: 'listbox',
                 }}>
-                {options.map((option, index) => (
+                {opt.map((option, index) => (
                     <MenuItem
-                        key={option}
+                        key={option.label}
                         disabled={false} //index === 0
                         selected={index === selectedIndex}
-                        onClick={(event) => handleMenuItemClick(event, index)}>
-                        {option}
+                        onClick={(event) => handleMenuItemClick(event, index, option.flt)}>
+                        {option.label}
                     </MenuItem>
                 ))}
             </Menu>

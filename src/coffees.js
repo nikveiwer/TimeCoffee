@@ -91,7 +91,7 @@ export const coffees = [
         id: 8,
         imageUrl:
             'https://avatars.mds.yandex.net/i?id=c235b91a9d41fa26783789d9e933ab7e504a3669-3702239-images-thumbs&n=13',
-        name: 'Яфи',
+        name: 'Шоколадный раф',
         milks: ['default', 'grown'],
         sizes: ['0.2', '0.4', '0.6'],
         price: 135,

@@ -16,16 +16,17 @@ const CoffeeList = () => {
     const coffees = useSelector((state) => state.coffees.coffees);
     const coffeesLoadingStatus = useSelector((state) => state.coffees.coffeesLoadingStatus);
     const category = useSelector((state) => state.filters.category);
+    const sort = useSelector((state) => state.filters.sort);
 
     useEffect(() => {
         dispatch(
             fetchCoffees(
                 `https://6388ba57a4bb27a7f78ffb13.mockapi.io/coffees?${
                     category === 'all' ? null : `category=${category}`
-                }&sortBy=price`,
+                }&sortBy=${sort.split(' ')[0]}&order=${sort.split(' ')[1]}`,
             ),
         );
-    }, [category]);
+    }, [category, sort]);
 
     return (
         <Grid2 sx={{ justifyContent: 'center' }} container spacing={2}>

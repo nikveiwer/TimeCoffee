@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
     category: 'all',
+    sort: 'raiting desc',
 };
 
 const filtersSlice = createSlice({
@@ -11,6 +12,9 @@ const filtersSlice = createSlice({
         categoryChanged: (state, action) => {
             state.category = action.payload;
         },
+        sortChanged: (state, action) => {
+            state.sort = action.payload;
+        },
     },
 });
 
@@ -18,4 +22,4 @@ const { actions, reducer } = filtersSlice;
 
 export default reducer;
 
-export const { categoryChanged } = actions;
+export const { categoryChanged, sortChanged } = actions;
