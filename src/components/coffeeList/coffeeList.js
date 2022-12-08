@@ -17,16 +17,19 @@ const CoffeeList = () => {
     const coffeesLoadingStatus = useSelector((state) => state.coffees.coffeesLoadingStatus);
     const category = useSelector((state) => state.filters.category);
     const sort = useSelector((state) => state.filters.sort);
+    const search = useSelector((state) => state.filters.search);
 
     useEffect(() => {
+        const reqCategory = category === 'all' ? '' : `category=${category}`;
+        const reqSearch = search ? `search=${search}` : '';
+        const reqSortBy = sort.split(' ')[0];
+        const reqSortOrder = sort.split(' ')[1];
         dispatch(
             fetchCoffees(
-                `https://6388ba57a4bb27a7f78ffb13.mockapi.io/coffees?${
-                    category === 'all' ? null : `category=${category}`
-                }&sortBy=${sort.split(' ')[0]}&order=${sort.split(' ')[1]}`,
+                `https://6388ba57a4bb27a7f78ffb13.mockapi.io/coffees?${reqCategory}&${reqSearch}&sortBy=${reqSortBy}&order=${reqSortOrder}`,
             ),
         );
-    }, [category, sort]);
+    }, [category, sort, search]);
 
     return (
         <Grid2 sx={{ justifyContent: 'center' }} container spacing={2}>

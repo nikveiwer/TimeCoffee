@@ -2,6 +2,7 @@ import Categories from '../categories/categories';
 import Sort from '../sort/sort';
 import CoffeeCard from '../coffeeCard/coffeeCard';
 import CoffeeList from '../coffeeList/coffeeList';
+import Search from '../../search/search';
 
 import Grid2 from '@mui/material/Unstable_Grid2';
 
@@ -16,6 +17,7 @@ const MainPage = () => {
                     <Sort></Sort>
                 </Grid2>
             </Grid2>
+            <Search></Search>
             <CoffeeList></CoffeeList>
         </>
     );
