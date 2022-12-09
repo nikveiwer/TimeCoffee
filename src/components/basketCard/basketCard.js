@@ -11,6 +11,7 @@ import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 
 const BsaketCard = () => {
+    console.log('BasketCard');
     const [count, setCount] = useState(1);
 
     return (

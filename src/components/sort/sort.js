@@ -32,6 +32,7 @@ const opt = [
 ];
 
 const Sort = () => {
+    console.log('Sort');
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [selectedIndex, setSelectedIndex] = React.useState(0);
     const open = Boolean(anchorEl);

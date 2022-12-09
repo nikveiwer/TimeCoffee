@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createSelector } from '@reduxjs/toolkit';
 import { fetchCoffees } from './coffeeSlice';
+import qs from 'qs';
+import { useNavigate } from 'react-router-dom';
 
 import CoffeeCard from '../coffeeCard/coffeeCard';
 
@@ -11,13 +13,21 @@ import Stack from '@mui/material/Stack';
 import Alert from '@mui/material/Alert';
 
 const CoffeeList = () => {
+    console.log('CoffeeList');
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const coffees = useSelector((state) => state.coffees.coffees);
     const coffeesLoadingStatus = useSelector((state) => state.coffees.coffeesLoadingStatus);
     const category = useSelector((state) => state.filters.category);
     const sort = useSelector((state) => state.filters.sort);
     const search = useSelector((state) => state.filters.search);
+
+    useEffect(() => {
+        if (window.location.search) {
+            const params = qs.parse(window.location.search.substring(1));
+        }
+    }, []);
 
     useEffect(() => {
         const reqCategory = category === 'all' ? '' : `category=${category}`;
@@ -30,6 +40,16 @@ const CoffeeList = () => {
             ),
         );
     }, [category, sort, search]);
+
+    useEffect(() => {
+        const queryString = qs.stringify({
+            category,
+            sortBy: sort.split(' ')[0],
+            order: sort.split(' ')[1],
+        });
+
+        navigate(`?${queryString}`);
+    }, [category, sort]);
 
     return (
         <Grid2 sx={{ justifyContent: 'center' }} container spacing={2}>

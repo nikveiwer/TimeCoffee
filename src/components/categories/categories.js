@@ -13,6 +13,7 @@ function a11yProps(index) {
 }
 
 const Categories = () => {
+    console.log('categories');
     const dispatch = useDispatch();
 
     const category = useSelector((state) => state.filters.category);

@@ -1,17 +1,28 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+
+import { useState, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 
+import debounce from 'lodash.debounce';
+
 import { searchChanged } from '../components/coffeeList/filtersSlice';
 
 const Search = () => {
+    console.log('Search');
     const dispatch = useDispatch();
 
-    const search = useSelector((state) => state.filters.search);
+    const [value, setValue] = useState('');
+
+    const waitHandleChange = useCallback(
+        debounce((value) => dispatch(searchChanged(value)), 500),
+        [],
+    );
 
     const handleChange = (event) => {
-        dispatch(searchChanged(event.target.value));
+        setValue(event.target.value);
+        waitHandleChange(value);
     };
 
     return (
@@ -26,7 +37,7 @@ const Search = () => {
             <TextField
                 id="search"
                 label="Поиск"
-                value={search}
+                value={value}
                 placeholder={'Найдите кофе'}
                 onChange={handleChange}
             />

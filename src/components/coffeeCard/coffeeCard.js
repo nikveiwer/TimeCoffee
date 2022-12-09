@@ -18,6 +18,7 @@ function a11yProps(index) {
 }
 
 const CoffeeCard = (props) => {
+    console.log('coffeeCad');
     const { imageUrl, name, milks, sizes, price, category, raiting } = props;
 
     const [milk, setMilk] = React.useState(milks[0] || milks[1]);

@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom';
 import BsaketCard from '../basketCard/basketCard';
 
 const Basket = () => {
+    console.log('Basket');
     return (
         <ViewFullBasket></ViewFullBasket>
         // <ViewEmptyBasket></ViewEmptyBasket>

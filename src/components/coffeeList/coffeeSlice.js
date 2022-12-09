@@ -3,7 +3,7 @@ import { useHttp } from '../../hooks/http.hook';
 
 const initialState = {
     coffees: [],
-    coffeesLoadingStatus: 'norm',
+    coffeesLoadingStatus: 'loading',
 };
 
 export const fetchCoffees = createAsyncThunk('coffees/fetchCoffees', (adress) => {
