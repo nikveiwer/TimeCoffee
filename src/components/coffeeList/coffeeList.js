@@ -1,7 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createSelector } from '@reduxjs/toolkit';
 import { fetchCoffees } from './coffeeSlice';
+import { linkMemo } from './filtersSlice';
 import qs from 'qs';
 import { useNavigate } from 'react-router-dom';
 
@@ -17,6 +18,9 @@ const CoffeeList = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const isSearch = useRef(false);
+    const isMounted = useRef(false);
+
     const coffees = useSelector((state) => state.coffees.coffees);
     const coffeesLoadingStatus = useSelector((state) => state.coffees.coffeesLoadingStatus);
     const category = useSelector((state) => state.filters.category);
@@ -26,10 +30,13 @@ const CoffeeList = () => {
     useEffect(() => {
         if (window.location.search) {
             const params = qs.parse(window.location.search.substring(1));
+
+            dispatch(linkMemo(params));
+            isSearch.current = true;
         }
     }, []);
 
-    useEffect(() => {
+    const reqCoffees = () => {
         const reqCategory = category === 'all' ? '' : `category=${category}`;
         const reqSearch = search ? `search=${search}` : '';
         const reqSortBy = sort.split(' ')[0];
@@ -39,16 +46,26 @@ const CoffeeList = () => {
                 `https://6388ba57a4bb27a7f78ffb13.mockapi.io/coffees?${reqCategory}&${reqSearch}&sortBy=${reqSortBy}&order=${reqSortOrder}`,
             ),
         );
+    };
+
+    useEffect(() => {
+        if (!isSearch.current) {
+            reqCoffees();
+        }
+
+        isSearch.current = false;
     }, [category, sort, search]);
 
     useEffect(() => {
-        const queryString = qs.stringify({
-            category,
-            sortBy: sort.split(' ')[0],
-            order: sort.split(' ')[1],
-        });
+        if (isMounted.current) {
+            const queryString = qs.stringify({
+                category,
+                sort: sort,
+            });
 
-        navigate(`?${queryString}`);
+            navigate(`?${queryString}`);
+        }
+        isMounted.current = true;
     }, [category, sort]);
 
     return (

@@ -19,6 +19,10 @@ const filtersSlice = createSlice({
         searchChanged: (state, action) => {
             state.search = action.payload;
         },
+        linkMemo: (state, action) => {
+            state.category = action.payload.category;
+            state.sort = action.payload.sort;
+        },
     },
 });
 
@@ -26,4 +30,4 @@ const { actions, reducer } = filtersSlice;
 
 export default reducer;
 
-export const { categoryChanged, sortChanged, searchChanged } = actions;
+export const { categoryChanged, sortChanged, searchChanged, linkMemo } = actions;

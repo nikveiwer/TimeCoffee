@@ -33,8 +33,14 @@ const opt = [
 
 const Sort = () => {
     console.log('Sort');
+
+    const sort = useSelector((state) => state.filters.sort);
+
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const [selectedIndex, setSelectedIndex] = React.useState(0);
+    // const [selectedIndex, setSelectedIndex] = React.useState(
+    //     opt.indexOf(opt.find((item) => item.flt === sort)),
+    // );
+    // console.log(opt.indexOf(opt.find((item) => item.flt === sort)));
     const open = Boolean(anchorEl);
 
     const dispatch = useDispatch();
@@ -44,7 +50,7 @@ const Sort = () => {
     };
 
     const handleMenuItemClick = (event, index, flt) => {
-        setSelectedIndex(index);
+        // setSelectedIndex(index);
         setAnchorEl(null);
         dispatch(sortChanged(flt));
     };
@@ -64,7 +70,10 @@ const Sort = () => {
                     aria-label="when device is locked"
                     aria-expanded={open ? 'true' : undefined}
                     onClick={handleClickListItem}>
-                    <ListItemText primary="Сортировка по:" secondary={opt[selectedIndex].label} />
+                    <ListItemText
+                        primary="Сортировка по:"
+                        secondary={opt.find((item) => item.flt === sort).label}
+                    />
                 </ListItem>
             </List>
             <Menu
@@ -80,7 +89,7 @@ const Sort = () => {
                     <MenuItem
                         key={option.label}
                         disabled={false} //index === 0
-                        selected={index === selectedIndex}
+                        selected={option.flt === sort}
                         onClick={(event) => handleMenuItemClick(event, index, option.flt)}>
                         {option.label}
                     </MenuItem>
