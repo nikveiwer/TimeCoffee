@@ -1,3 +1,7 @@
+import { useDispatch } from 'react-redux';
+
+import { pushCoffee } from '../basket/basketSlice';
+
 import * as React from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -19,7 +23,10 @@ function a11yProps(index) {
 
 const CoffeeCard = (props) => {
     console.log('coffeeCad');
-    const { imageUrl, name, milks, sizes, price, category, raiting } = props;
+
+    const dispatch = useDispatch();
+
+    const { imageUrl, name, milks, sizes, price } = props;
 
     const [milk, setMilk] = React.useState(milks[0] || milks[1]);
     const [size, setSize] = React.useState(sizes[0] || sizes[1] || sizes[2]);
@@ -35,6 +42,16 @@ const CoffeeCard = (props) => {
 
     const onAdd = () => {
         setCount((count) => count + 1);
+
+        const basketCoffeObj = {
+            name,
+            milk,
+            size,
+            price,
+            count: count + 1,
+        };
+
+        dispatch(pushCoffee(basketCoffeObj));
     };
 
     const milkNames = ['Обычное', 'Растительное'];
@@ -107,7 +124,7 @@ const CoffeeCard = (props) => {
                             fontFamily: `"Roboto","Helvetica","Arial",sans-serif`,
                             fontWeight: '400',
                         }}>
-                        {price + 'р.'}
+                        {`${count === 0 ? price : price * count}р.`}
                     </Box>
                     <Button onClick={onAdd} size="small" color="primary">
                         + Добавить {count}

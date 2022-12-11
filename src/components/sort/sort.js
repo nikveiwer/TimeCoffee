@@ -37,10 +37,6 @@ const Sort = () => {
     const sort = useSelector((state) => state.filters.sort);
 
     const [anchorEl, setAnchorEl] = React.useState(null);
-    // const [selectedIndex, setSelectedIndex] = React.useState(
-    //     opt.indexOf(opt.find((item) => item.flt === sort)),
-    // );
-    // console.log(opt.indexOf(opt.find((item) => item.flt === sort)));
     const open = Boolean(anchorEl);
 
     const dispatch = useDispatch();
@@ -49,8 +45,7 @@ const Sort = () => {
         setAnchorEl(event.currentTarget);
     };
 
-    const handleMenuItemClick = (event, index, flt) => {
-        // setSelectedIndex(index);
+    const handleMenuItemClick = (event, flt) => {
         setAnchorEl(null);
         dispatch(sortChanged(flt));
     };
@@ -90,7 +85,7 @@ const Sort = () => {
                         key={option.label}
                         disabled={false} //index === 0
                         selected={option.flt === sort}
-                        onClick={(event) => handleMenuItemClick(event, index, option.flt)}>
+                        onClick={(event) => handleMenuItemClick(event, option.flt)}>
                         {option.label}
                     </MenuItem>
                 ))}
