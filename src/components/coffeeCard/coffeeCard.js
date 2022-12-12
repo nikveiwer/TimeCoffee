@@ -1,8 +1,11 @@
-import { useDispatch } from 'react-redux';
+import { useEffect, useState, useCallback } from 'react';
+
+import { useDispatch, useSelector } from 'react-redux';
+
+import { createSelector } from '@reduxjs/toolkit';
 
 import { pushCoffee } from '../basket/basketSlice';
 
-import * as React from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -13,6 +16,7 @@ import { v4 as uuidv4 } from 'uuid';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
+// import { set } from 'immer/dist/internal';
 
 function a11yProps(index) {
     return {
@@ -28,9 +32,25 @@ const CoffeeCard = (props) => {
 
     const { imageUrl, name, milks, sizes, price } = props;
 
-    const [milk, setMilk] = React.useState(milks[0] || milks[1]);
-    const [size, setSize] = React.useState(sizes[0] || sizes[1] || sizes[2]);
-    const [count, setCount] = React.useState(0);
+    const [milk, setMilk] = useState(milks[0] || milks[1]);
+    const [size, setSize] = useState(sizes[0] || sizes[1] || sizes[2]);
+    const [count, setCount] = useState(0);
+    const totalPrice = Math.round(price * (Number(size) + 0.8));
+
+    const basketSelector = createSelector(
+        (state) => state.basket.basketCoffees,
+        (basket) => {
+            return basket.find(
+                (item) => item.milk === milk && item.size === size && item.name === name,
+            );
+        },
+    );
+    const currentCoffeCountInBasket = useSelector(basketSelector);
+    // console.log(basketSelector);
+
+    useEffect(() => {
+        currentCoffeCountInBasket ? setCount(currentCoffeCountInBasket.count) : setCount(0);
+    }, [currentCoffeCountInBasket, milk, size]);
 
     const handleMilk = (event, newValue) => {
         setMilk(newValue);
@@ -41,14 +61,12 @@ const CoffeeCard = (props) => {
     };
 
     const onAdd = () => {
-        setCount((count) => count + 1);
-
         const basketCoffeObj = {
             name,
             milk,
             size,
-            price,
-            count: count + 1,
+            price: totalPrice,
+            count: 1,
         };
 
         dispatch(pushCoffee(basketCoffeObj));
@@ -64,16 +82,10 @@ const CoffeeCard = (props) => {
                 <Typography textAlign={'center'} gutterBottom variant="h5" component="div">
                     {name}
                 </Typography>
-                {/* <Typography variant="body2" color="text.secondary">
-              Lizards are a widespread group of squamate reptiles, with over 6,000
-              species, ranging across all continents except Antarctica
-            </Typography> */}
 
                 <Box margin={'0 auto'} sx={{ width: '80%' }}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                         <Tabs fontSize={'5px'} value={milk} onChange={handleMilk} aria-label="Milk">
-                            {/* <Tab value="default" label="Обычное" {...a11yProps('all')} />
-                            <Tab value="grown" label="Растительное" {...a11yProps('capp')} /> */}
                             {milks.map((milkTab, i) => {
                                 return (
                                     <Tab
@@ -124,7 +136,7 @@ const CoffeeCard = (props) => {
                             fontFamily: `"Roboto","Helvetica","Arial",sans-serif`,
                             fontWeight: '400',
                         }}>
-                        {`${count === 0 ? price : price * count}р.`}
+                        {`${count === 0 ? totalPrice : totalPrice * count}р.`}
                     </Box>
                     <Button onClick={onAdd} size="small" color="primary">
                         + Добавить {count}
