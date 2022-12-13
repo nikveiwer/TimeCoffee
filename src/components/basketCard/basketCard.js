@@ -1,4 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
+
+import { useDispatch, useSelector } from 'react-redux';
+
+import { createSelector } from '@reduxjs/toolkit';
+
+import { pushCoffee, deleteWholeCoffee, decreaseCoffee } from '../basket/basketSlice';
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -10,9 +16,19 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 
-const BsaketCard = () => {
+const BsaketCard = (props) => {
     console.log('BasketCard');
-    const [count, setCount] = useState(1);
+
+    const { name, milk, size, price, imageUrl, count } = props;
+
+    const dispatch = useDispatch();
+
+    const basketCoffeObj = {
+        name,
+        milk,
+        size,
+        price,
+    };
 
     return (
         <Card sx={{ width: '100%' }}>
@@ -22,9 +38,7 @@ const BsaketCard = () => {
                         sx={{
                             marginRight: '3vw',
                         }}
-                        src={
-                            'https://img.freepik.com/premium-photo/ice-cappuccino-cool-beverage-cafe-view_6351-1562.jpg'
-                        }
+                        src={imageUrl}
                         aria-label="basketCard"></Avatar>
                 }
                 action={
@@ -40,7 +54,7 @@ const BsaketCard = () => {
                                 justifyContent: 'space-between',
                             }}>
                             <IconButton
-                                onClick={() => setCount(2)}
+                                onClick={() => dispatch(decreaseCoffee(basketCoffeObj))}
                                 color="black"
                                 aria-label="mines">
                                 <ArrowLeftIcon />
@@ -50,22 +64,26 @@ const BsaketCard = () => {
                                 {count}
                             </Typography>
 
-                            <IconButton aria-label="plus">
+                            <IconButton
+                                onClick={() => dispatch(pushCoffee(basketCoffeObj))}
+                                aria-label="plus">
                                 <ArrowRightIcon />
                             </IconButton>
                         </Box>
 
                         <Typography fontSize={'20px'} variant="h6" component="h3">
-                            125p.
+                            {price * count}p.
                         </Typography>
 
-                        <IconButton aria-label="delete">
+                        <IconButton
+                            onClick={() => dispatch(deleteWholeCoffee(basketCoffeObj))}
+                            aria-label="delete">
                             <CancelIcon></CancelIcon>
                         </IconButton>
                     </Box>
                 }
-                title="Shrimp and Chorizo Paella"
-                subheader="September 14, 2016"
+                title={name}
+                subheader={`${milk}, ${size}`}
                 sx={{
                     fontSize: '30px',
                 }}

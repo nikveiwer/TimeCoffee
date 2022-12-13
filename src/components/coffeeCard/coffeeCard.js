@@ -65,6 +65,7 @@ const CoffeeCard = (props) => {
             name,
             milk,
             size,
+            imageUrl,
             price: totalPrice,
             count: 1,
         };

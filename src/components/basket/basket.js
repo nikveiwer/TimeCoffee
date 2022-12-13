@@ -1,3 +1,7 @@
+import { useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { createSelector } from '@reduxjs/toolkit';
+
 import { Container } from '@mui/material';
 import Box from '@mui/material/Box';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
@@ -8,16 +12,22 @@ import MoodBadIcon from '@mui/icons-material/MoodBad';
 import Button from '@mui/material/Button';
 import CoffeeIcon from '@mui/icons-material/Coffee';
 
+import { v4 as uuidv4 } from 'uuid';
+
 import { Link } from 'react-router-dom';
 
 import BsaketCard from '../basketCard/basketCard';
 
 const Basket = () => {
     console.log('Basket');
-    return (
-        <ViewFullBasket></ViewFullBasket>
-        // <ViewEmptyBasket></ViewEmptyBasket>
-    );
+
+    const totalCount = useSelector((state) => state.basket.totalCount);
+
+    if (totalCount) {
+        return <ViewFullBasket></ViewFullBasket>;
+    } else {
+        return <ViewEmptyBasket></ViewEmptyBasket>;
+    }
 };
 
 const ViewEmptyBasket = () => {
@@ -59,6 +69,8 @@ const ViewEmptyBasket = () => {
 };
 
 const ViewFullBasket = () => {
+    const { basketCoffees, totalSum, totalCount } = useSelector((state) => state.basket);
+
     return (
         <Container maxWidth={'md'}>
             <Box
@@ -101,7 +113,9 @@ const ViewFullBasket = () => {
             </Box>
 
             <Stack mt={'70px'} spacing={2}>
-                <BsaketCard></BsaketCard>
+                {basketCoffees.map((coffee) => {
+                    return <BsaketCard key={uuidv4()} {...coffee}></BsaketCard>;
+                })}
             </Stack>
 
             <Box
