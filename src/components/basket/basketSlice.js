@@ -57,6 +57,11 @@ const basketSlice = createSlice({
                 state.basketCoffees.splice(index, 1);
             }
         },
+        cleanBasket: (state) => {
+            state.basketCoffees = [];
+            state.totalSum = 0;
+            state.totalCount = 0;
+        },
         // sortChanged: (state, action) => {
         //     state.sort = action.payload;
         // },
@@ -74,4 +79,4 @@ const { actions, reducer } = basketSlice;
 
 export default reducer;
 
-export const { pushCoffee, deleteWholeCoffee, decreaseCoffee } = actions;
+export const { pushCoffee, deleteWholeCoffee, decreaseCoffee, cleanBasket } = actions;

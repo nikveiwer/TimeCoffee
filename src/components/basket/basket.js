@@ -2,6 +2,8 @@ import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createSelector } from '@reduxjs/toolkit';
 
+import { cleanBasket } from '../basket/basketSlice';
+
 import { Container } from '@mui/material';
 import Box from '@mui/material/Box';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
@@ -61,15 +63,19 @@ const ViewEmptyBasket = () => {
                 color="disabled"
                 sx={{ width: '150px', height: '150px', marginTop: '40px' }}></CoffeeIcon>
 
-            <Button sx={{ marginTop: '50px' }} variant="contained">
-                Вернуться назад
-            </Button>
+            <Link style={{ textDecoration: 'none' }} to="/">
+                <Button sx={{ marginTop: '20px' }} variant="contained">
+                    Вернуться назад
+                </Button>
+            </Link>
         </Container>
     );
 };
 
 const ViewFullBasket = () => {
     const { basketCoffees, totalSum, totalCount } = useSelector((state) => state.basket);
+
+    const dispatch = useDispatch();
 
     return (
         <Container maxWidth={'md'}>
@@ -98,17 +104,13 @@ const ViewFullBasket = () => {
                     </Typography>
                 </Box>
 
-                <Box
-                    sx={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        cursor: 'pointer',
-                    }}>
-                    <DeleteIcon color={'disabled'}></DeleteIcon>
-                    <Typography color={'grey'} ml={1} fontSize={'14px'} variant="h6" component="h2">
+                <Box paddingTop={'20px'}>
+                    <Button
+                        onClick={() => dispatch(cleanBasket())}
+                        endIcon={<DeleteIcon color={'primary'}></DeleteIcon>}
+                        size="small">
                         Очистить корзину
-                    </Typography>
+                    </Button>
                 </Box>
             </Box>
 
@@ -127,7 +129,7 @@ const ViewFullBasket = () => {
                 }}>
                 <Box>
                     <Typography color={'grey'} ml={1} fontSize={'17px'} variant="h6" component="h2">
-                        Всего кофе заказано: <span style={{ color: 'black' }}>3шт.</span>
+                        Всего кофе заказано: <span style={{ color: 'black' }}>{totalCount}шт.</span>
                     </Typography>
                     <Link style={{ textDecoration: 'none' }} to="/">
                         <Button sx={{ marginTop: '20px' }} variant="outlined">
@@ -138,7 +140,7 @@ const ViewFullBasket = () => {
 
                 <Box>
                     <Typography color={'grey'} ml={1} fontSize={'17px'} variant="h6" component="h2">
-                        Общая сумма: <span style={{ color: '#1976d2' }}>424р.</span>
+                        Общая сумма: <span style={{ color: '#1976d2' }}>{totalSum}р.</span>
                     </Typography>
                     <Button sx={{ marginTop: '20px' }} variant="contained">
                         Оплатить заказ
