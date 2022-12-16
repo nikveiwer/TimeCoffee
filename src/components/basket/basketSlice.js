@@ -62,16 +62,6 @@ const basketSlice = createSlice({
             state.totalSum = 0;
             state.totalCount = 0;
         },
-        // sortChanged: (state, action) => {
-        //     state.sort = action.payload;
-        // },
-        // searchChanged: (state, action) => {
-        //     state.search = action.payload;
-        // },
-        // linkMemo: (state, action) => {
-        //     state.category = action.payload.category;
-        //     state.sort = action.payload.sort;
-        // },
     },
 });
 

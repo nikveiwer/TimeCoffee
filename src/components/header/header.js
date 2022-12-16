@@ -12,20 +12,14 @@ import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import Divider from '@mui/material/Divider';
 import { Container } from '@mui/material';
 
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const Header = () => {
     console.log('Header');
 
-    // const sumAndCountSelector = createSelector(
-    //     (state) => state.basket.basketCffee,
-    //     (basket) => {
-    //         sumAndCount = [0, 0];
-    //         basket.forEach((item) => {});
-    //     },
-    // );
-
     const { totalSum, totalCount } = useSelector((state) => state.basket);
+
+    const location = useLocation();
 
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -59,21 +53,23 @@ const Header = () => {
                             </Link>
                         </Typography>
 
-                        <Link style={{ textDecoration: 'none' }} to="/cart">
-                            <Button
-                                sx={{
-                                    width: '100px',
-                                    padding: '0 55px',
-                                }}
-                                variant="contained"
-                                endIcon={<ShoppingBasketIcon />}>
-                                <Box textTransform={'none'} mr={'10px'}>
-                                    {totalSum}р.
-                                </Box>
-                                <Divider color={'white'} orientation="vertical" flexItem />
-                                <Box ml={'10px'}>{totalCount}</Box>
-                            </Button>
-                        </Link>
+                        {location.pathname !== '/cart' && (
+                            <Link style={{ textDecoration: 'none' }} to="/cart">
+                                <Button
+                                    sx={{
+                                        width: '100px',
+                                        padding: '0 55px',
+                                    }}
+                                    variant="contained"
+                                    endIcon={<ShoppingBasketIcon />}>
+                                    <Box textTransform={'none'} mr={'10px'}>
+                                        {totalSum}р.
+                                    </Box>
+                                    <Divider color={'white'} orientation="vertical" flexItem />
+                                    <Box ml={'10px'}>{totalCount}</Box>
+                                </Button>
+                            </Link>
+                        )}
                     </Toolbar>
                 </Container>
             </AppBar>

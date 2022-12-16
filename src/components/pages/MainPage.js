@@ -3,6 +3,7 @@ import Sort from '../sort/sort';
 import CoffeeCard from '../coffeeCard/coffeeCard';
 import CoffeeList from '../coffeeList/coffeeList';
 import Search from '../../search/search';
+import FullCoffee from './FullCoffee';
 
 import Grid2 from '@mui/material/Unstable_Grid2';
 

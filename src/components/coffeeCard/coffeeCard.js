@@ -6,12 +6,13 @@ import { createSelector } from '@reduxjs/toolkit';
 
 import { pushCoffee } from '../basket/basketSlice';
 
+import { Link } from 'react-router-dom';
+
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions } from '@mui/material';
-import { v4 as uuidv4 } from 'uuid';
 
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -30,7 +31,7 @@ const CoffeeCard = (props) => {
 
     const dispatch = useDispatch();
 
-    const { imageUrl, name, milks, sizes, price } = props;
+    const { id, imageUrl, name, milks, sizes, price } = props;
 
     const [milk, setMilk] = useState(milks[0] || milks[1]);
     const [size, setSize] = useState(sizes[0] || sizes[1] || sizes[2]);
@@ -142,6 +143,12 @@ const CoffeeCard = (props) => {
                     <Button onClick={onAdd} size="small" color="primary">
                         + Добавить {count}
                     </Button>
+
+                    <Link to={`/full/${id}`}>
+                        <Button size="small" color="primary">
+                            Подробнее
+                        </Button>
+                    </Link>
                 </Box>
             </CardActions>
         </Card>
