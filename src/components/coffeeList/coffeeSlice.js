@@ -21,7 +21,11 @@ const coffeesSlice = createSlice({
                 state.coffeesLoadingStatus = 'loading';
             })
             .addCase(fetchCoffees.fulfilled, (state, action) => {
-                state.coffees = action.payload;
+                if (Array.isArray(action.payload)) {
+                    state.coffees = action.payload;
+                } else {
+                    state.coffees = [action.payload];
+                }
                 state.coffeesLoadingStatus = 'norm';
             })
             .addCase(fetchCoffees.rejected, (state) => {

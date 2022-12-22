@@ -13,6 +13,8 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import InfoIcon from '@mui/icons-material/Info';
 
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -80,10 +82,23 @@ const CoffeeCard = (props) => {
     return (
         <Card sx={{ width: '320px' }}>
             <CardMedia component="img" height="190" src={imageUrl} alt="coffee cap" />
-            <CardContent>
+            <CardContent sx={{ position: 'relative' }}>
                 <Typography textAlign={'center'} gutterBottom variant="h5" component="div">
                     {name}
                 </Typography>
+
+                <Box
+                    sx={{
+                        position: 'absolute',
+                        top: '-195px',
+                        left: '283px',
+                    }}>
+                    <Link style={{ textDecoration: 'none' }} to={`/full/${id}`}>
+                        <IconButton color="primary" aria-label="upload picture" component="label">
+                            <InfoIcon></InfoIcon>
+                        </IconButton>
+                    </Link>
+                </Box>
 
                 <Box margin={'0 auto'} sx={{ width: '80%' }}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -130,6 +145,8 @@ const CoffeeCard = (props) => {
                     sx={{
                         display: 'flex',
                         justifyContent: 'space-between',
+                        alignItems: 'center',
+                        // flexWrap: 'wrap',
                         padding: '0 50px',
                         width: '100%',
                     }}>
@@ -140,15 +157,12 @@ const CoffeeCard = (props) => {
                         }}>
                         {`${count === 0 ? totalPrice : totalPrice * count}р.`}
                     </Box>
-                    <Button onClick={onAdd} size="small" color="primary">
-                        + Добавить {count}
-                    </Button>
 
-                    <Link to={`/full/${id}`}>
-                        <Button size="small" color="primary">
-                            Подробнее
+                    <Box>
+                        <Button onClick={onAdd} size="small" color="primary">
+                            + Добавить {count}
                         </Button>
-                    </Link>
+                    </Box>
                 </Box>
             </CardActions>
         </Card>
