@@ -1,5 +1,6 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { sortChanged } from '../coffeeList/filtersSlice';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../../redux/initStore';
+import { sortChanged } from '../../redux/slices/filtersSlice';
 
 import * as React from 'react';
 import List from '@mui/material/List';
@@ -8,7 +9,14 @@ import ListItemText from '@mui/material/ListItemText';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 
-const opt = [
+import { RootState } from '../../redux/initStore';
+
+export interface ISort {
+    label: string;
+    flt: 'raiting desc' | 'raiting asc' | 'price desc' | 'price asc' | 'name asc';
+}
+
+const opt: ISort[] = [
     {
         label: 'Более популярные',
         flt: 'raiting desc',
@@ -34,18 +42,18 @@ const opt = [
 const Sort = () => {
     console.log('Sort');
 
-    const sort = useSelector((state) => state.filters.sort);
+    const sort = useSelector((state: RootState) => state.filters.sort);
 
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [anchorEl, setAnchorEl] = React.useState<Element | null>(null);
     const open = Boolean(anchorEl);
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
-    const handleClickListItem = (event) => {
+    const handleClickListItem = (event:  React.MouseEvent<HTMLDivElement>) => {
         setAnchorEl(event.currentTarget);
     };
 
-    const handleMenuItemClick = (event, flt) => {
+    const handleMenuItemClick = (event: React.MouseEvent<HTMLLIElement, MouseEvent>, flt: ISort["flt"]) => {
         setAnchorEl(null);
         dispatch(sortChanged(flt));
     };
@@ -67,7 +75,7 @@ const Sort = () => {
                     onClick={handleClickListItem}>
                     <ListItemText
                         primary="Сортировка по:"
-                        secondary={opt.find((item) => item.flt === sort).label}
+                        secondary={opt.find((item) => item.flt === sort)?.label }
                     />
                 </ListItem>
             </List>

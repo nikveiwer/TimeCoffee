@@ -1,10 +1,10 @@
 import { useEffect, useState, useCallback } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch } from '../../redux/initStore';
 
 import { createSelector } from '@reduxjs/toolkit';
 
-import { pushCoffee, deleteWholeCoffee, decreaseCoffee } from '../basket/basketSlice';
+import { pushCoffee, deleteWholeCoffee, decreaseCoffee } from '../../redux/slices/basketSlice';
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -16,19 +16,36 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 
-const BsaketCard = (props) => {
+import { IBasketCoffee } from '../../@types/in';
+
+import { milkNames } from '../coffeeCard/coffeeCard';
+
+let displayedMilk: string;
+
+const BsaketCard: React.FC<IBasketCoffee> = (props) => {
     console.log('BasketCard');
 
     const { name, milk, size, price, imageUrl, count } = props;
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const basketCoffeObj = {
         name,
         milk,
         size,
+        imageUrl,
         price,
+        count,
     };
+
+    switch (milk) {
+        case 'default':
+            displayedMilk = milkNames[0];
+            break;
+        case 'grown':
+            displayedMilk = milkNames[1];
+            break;
+    }
 
     return (
         <Card sx={{ width: '100%' }}>
@@ -36,7 +53,7 @@ const BsaketCard = (props) => {
                 avatar={
                     <Avatar
                         sx={{
-                            marginRight: '3vw',
+                            marginRight: { sm: '30px', xs: '5px' },
                         }}
                         src={imageUrl}
                         aria-label="basketCard"></Avatar>
@@ -46,7 +63,9 @@ const BsaketCard = (props) => {
                         sx={{
                             display: 'flex',
                             justifyContent: 'space-between',
-                            width: '22vw',
+                            width: { sm: '250px', xs: '90px' },
+                            flexDirection: { sm: 'row', xs: 'column' },
+                            alignItems: 'center',
                         }}>
                         <Box
                             sx={{
@@ -55,7 +74,6 @@ const BsaketCard = (props) => {
                             }}>
                             <IconButton
                                 onClick={() => dispatch(decreaseCoffee(basketCoffeObj))}
-                                color="black"
                                 aria-label="mines">
                                 <ArrowLeftIcon />
                             </IconButton>
@@ -83,7 +101,7 @@ const BsaketCard = (props) => {
                     </Box>
                 }
                 title={name}
-                subheader={`${milk}, ${size}`}
+                subheader={`${displayedMilk} молоко, ${size}л`}
                 sx={{
                     fontSize: '30px',
                 }}

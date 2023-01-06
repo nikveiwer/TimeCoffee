@@ -1,10 +1,11 @@
 import { useEffect, useState, useCallback } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../../redux/initStore';
 
 import { createSelector } from '@reduxjs/toolkit';
 
-import { pushCoffee } from '../basket/basketSlice';
+import { pushCoffee } from '../../redux/slices/basketSlice';
 
 import { Link } from 'react-router-dom';
 
@@ -21,17 +22,24 @@ import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 // import { set } from 'immer/dist/internal';
 
-function a11yProps(index) {
+import { ICoffee } from '../../@types/in';
+import { RootState } from '../../redux/initStore';
+
+function a11yProps(index: string) {
     return {
         id: `simple-tab-${index}`,
         'aria-controls': `simple-tabpanel-${index}`,
     };
 }
 
-const CoffeeCard = (props) => {
+export const milkNames = ['Обычное', 'Растительное'];
+const sizeNames = ['0.2л', '0.4л', '0.6л'];
+
+
+const CoffeeCard: React.FC<ICoffee> = (props) => {
     console.log('coffeeCad');
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const { id, imageUrl, name, milks, sizes, price } = props;
 
@@ -41,7 +49,7 @@ const CoffeeCard = (props) => {
     const totalPrice = Math.round(price * (Number(size) + 0.8));
 
     const basketSelector = createSelector(
-        (state) => state.basket.basketCoffees,
+        (state: RootState) => state.basket.basketCoffees,
         (basket) => {
             return basket.find(
                 (item) => item.milk === milk && item.size === size && item.name === name,
@@ -55,11 +63,11 @@ const CoffeeCard = (props) => {
         currentCoffeCountInBasket ? setCount(currentCoffeCountInBasket.count) : setCount(0);
     }, [currentCoffeCountInBasket, milk, size]);
 
-    const handleMilk = (event, newValue) => {
+    const handleMilk = (event: React.SyntheticEvent<Element, Event>, newValue: string) => {
         setMilk(newValue);
     };
 
-    const handleSize = (event, newValue) => {
+    const handleSize = (event: React.SyntheticEvent<Element, Event>, newValue: string) => {
         setSize(newValue);
     };
 
@@ -76,8 +84,6 @@ const CoffeeCard = (props) => {
         dispatch(pushCoffee(basketCoffeObj));
     };
 
-    const milkNames = ['Обычное', 'Растительное'];
-    const sizeNames = ['0.2л', '0.4л', '0.6л'];
 
     return (
         <Card sx={{ width: '320px' }}>
@@ -102,7 +108,7 @@ const CoffeeCard = (props) => {
 
                 <Box margin={'0 auto'} sx={{ width: '80%' }}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                        <Tabs fontSize={'5px'} value={milk} onChange={handleMilk} aria-label="Milk">
+                        <Tabs value={milk} onChange={handleMilk} aria-label="Milk">
                             {milks.map((milkTab, i) => {
                                 return (
                                     <Tab

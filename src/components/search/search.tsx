@@ -1,28 +1,28 @@
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../redux/initStore';
 
 import { useState, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-
+//@ts-ignore
 import debounce from 'lodash.debounce';
 
-import { searchChanged } from '../components/coffeeList/filtersSlice';
+import { searchChanged } from '../../redux/slices/filtersSlice';
 
 const Search = () => {
     console.log('Search');
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const [value, setValue] = useState('');
 
     const waitHandleChange = useCallback(
-        debounce((value) => dispatch(searchChanged(value)), 500),
+        debounce((value: string) => dispatch(searchChanged(value)), 500),
         [],
     );
 
-    const handleChange = (event) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setValue(event.target.value);
-        waitHandleChange(value);
+        waitHandleChange(event.target.value);
     };
 
     return (
@@ -33,7 +33,9 @@ const Search = () => {
                 marginBottom: '25px',
             }}
             noValidate
-            autoComplete="off">
+            autoComplete="off"
+            onSubmit={(e) => {e.preventDefault()}}>
+                
             <TextField
                 id="search"
                 label="Поиск"

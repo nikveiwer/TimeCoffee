@@ -1,10 +1,10 @@
 export const useHttp = () => {
-    const request = async (
-        url,
-        method = 'GET',
-        body = null,
-        headers = { 'Content-Type': 'application/json' },
-    ) => {
+    const request = async <ReturnedType>(
+        url: string,
+        method: "GET" | "POST" | "PUSH" | "PULL" | "DELETE" = 'GET',
+        body: any = null,
+        headers: any = { 'Content-Type': 'application/json' },
+    ): Promise<ReturnedType> => {
         try {
             const response = await fetch(url, { method, body, headers });
 
@@ -14,7 +14,7 @@ export const useHttp = () => {
 
             const data = await response.json();
 
-            return data;
+            return data as Promise<ReturnedType>;
         } catch (e) {
             throw e;
         }

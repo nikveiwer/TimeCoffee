@@ -1,6 +1,14 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-const initialState = {
+import { IBasketCoffee } from '../../@types/in';
+
+interface IBasketSliceState {
+    basketCoffees: IBasketCoffee[];
+    totalSum: number;
+    totalCount: number;
+}
+
+const initialState: IBasketSliceState = {
     basketCoffees: [],
     totalSum: 0,
     totalCount: 0,
@@ -10,7 +18,7 @@ const basketSlice = createSlice({
     name: 'basket',
     initialState,
     reducers: {
-        pushCoffee: (state, action) => {
+        pushCoffee: (state, action: PayloadAction<IBasketCoffee>) => {
             let index = state.basketCoffees.findIndex(
                 (item) =>
                     item.name === action.payload.name &&
@@ -27,7 +35,7 @@ const basketSlice = createSlice({
             state.totalSum += action.payload.price;
             state.totalCount += 1;
         },
-        deleteWholeCoffee: (state, action) => {
+        deleteWholeCoffee: (state, action: PayloadAction<IBasketCoffee>) => {
             let index = state.basketCoffees.findIndex(
                 (item) =>
                     item.name === action.payload.name &&
@@ -40,7 +48,7 @@ const basketSlice = createSlice({
 
             state.basketCoffees.splice(index, 1);
         },
-        decreaseCoffee: (state, action) => {
+        decreaseCoffee: (state, action: PayloadAction<IBasketCoffee>) => {
             let index = state.basketCoffees.findIndex(
                 (item) =>
                     item.name === action.payload.name &&
@@ -62,6 +70,13 @@ const basketSlice = createSlice({
             state.totalSum = 0;
             state.totalCount = 0;
         },
+        storageBasket: (state, action: PayloadAction<string>) => {
+            const persistedBasket: IBasketSliceState = JSON.parse(action.payload);
+
+            state.basketCoffees = persistedBasket.basketCoffees;
+            state.totalSum = persistedBasket.totalSum;
+            state.totalCount = persistedBasket.totalCount;
+        },
     },
 });
 
@@ -69,4 +84,5 @@ const { actions, reducer } = basketSlice;
 
 export default reducer;
 
-export const { pushCoffee, deleteWholeCoffee, decreaseCoffee, cleanBasket } = actions;
+export const { pushCoffee, deleteWholeCoffee, decreaseCoffee, cleanBasket, storageBasket } =
+    actions;

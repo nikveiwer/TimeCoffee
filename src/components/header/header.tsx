@@ -14,10 +14,12 @@ import { Container } from '@mui/material';
 
 import { Link, useLocation } from 'react-router-dom';
 
-const Header = () => {
+import { RootState } from '../../redux/initStore';
+
+const Header: React.FC = () => {
     console.log('Header');
 
-    const { totalSum, totalCount } = useSelector((state) => state.basket);
+    const { totalSum, totalCount } = useSelector((state: RootState) => state.basket);
 
     const location = useLocation();
 
@@ -58,15 +60,32 @@ const Header = () => {
                                 <Button
                                     sx={{
                                         width: '100px',
-                                        padding: '0 55px',
+                                        height: '30px',
+                                        padding: '4px 55px',
                                     }}
                                     variant="contained"
                                     endIcon={<ShoppingBasketIcon />}>
                                     <Box textTransform={'none'} mr={'10px'}>
-                                        {totalSum}р.
+                                        <Typography
+                                            lineHeight={'12px'}
+                                            fontSize={'12px'}
+                                            variant="h6"
+                                            component="h6"
+                                            sx={{ flexGrow: 2 }}>
+                                            {totalSum}р.
+                                        </Typography>
                                     </Box>
                                     <Divider color={'white'} orientation="vertical" flexItem />
-                                    <Box ml={'10px'}>{totalCount}</Box>
+                                    <Box ml={'10px'}>
+                                        <Typography
+                                            lineHeight={'12px'}
+                                            fontSize={'12px'}
+                                            variant="h6"
+                                            component="h6"
+                                            sx={{ flexGrow: 2 }}>
+                                            {totalCount}
+                                        </Typography>
+                                    </Box>
                                 </Button>
                             </Link>
                         )}

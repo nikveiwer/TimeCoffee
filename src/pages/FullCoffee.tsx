@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../redux/initStore';
 
 import { useParams } from 'react-router-dom';
 
-import { fetchCoffees } from '../coffeeList/coffeeSlice';
+import { fetchCoffees } from '../redux/slices/coffeeSlice';
 
 import * as React from 'react';
 import Box from '@mui/material/Box';
@@ -17,25 +18,28 @@ import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 
-export default function FullCoffee() {
+import { ICoffee } from '../@types/in';
+import { RootState } from '../redux/initStore';
+
+const FullCoffee: React.FC = () => {
     const params = useParams();
     const { coffeeId } = params;
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
         dispatch(fetchCoffees(`https://6388ba57a4bb27a7f78ffb13.mockapi.io/coffees/${coffeeId}`));
     }, []);
 
-    const status = useSelector((state) => state.coffees.coffeesLoadingStatus);
-    const concreateCoffee = useSelector((state) => state.coffees.coffees[0]);
+    const status = useSelector((state: RootState) => state.coffees.coffeesLoadingStatus);
+    const concreateCoffee = useSelector((state: RootState) => state.coffees.coffees[0]);
 
     console.log(concreateCoffee);
 
     return whatShouldBeRendered(status, concreateCoffee);
-}
+};
 
-const FullCoffeeCard = (props) => {
+const FullCoffeeCard: React.FC<ICoffee> = (props) => {
     const { name, imageUrl } = props;
 
     return (
@@ -48,10 +52,10 @@ const FullCoffeeCard = (props) => {
             }}>
             <Box sx={{ display: 'flex', flexDirection: 'column', maxWidth: '500px' }}>
                 <CardContent sx={{ flex: '1 0 auto' }}>
-                    <Typography component="div" variant="h2" sx={{ marginBottom: '40px' }}>
+                    <Typography component="div" variant="h3" sx={{ marginBottom: '40px' }}>
                         {name}
                     </Typography>
-                    <Typography variant="subtitle1" color="text.secondary" component="div">
+                    <Typography variant="subtitle2" color="text.secondary" component="div">
                         Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aut corporis
                         fugiat rem placeat nulla mollitia non, nemo voluptate blanditiis voluptas
                         enim aliquid doloribus repellat explicabo est amet earum minima harum.
@@ -67,7 +71,12 @@ const FullCoffeeCard = (props) => {
             </Box>
             <CardMedia
                 component="img"
-                sx={{ maxWidth: 500, maxHeight: 400, marginTop: '17px' }}
+                sx={{
+                    display: { md: 'block', xs: 'none' },
+                    maxWidth: 500,
+                    maxHeight: 400,
+                    marginTop: '17px',
+                }}
                 src={imageUrl}
                 alt="Live from space album cover"
             />
@@ -82,13 +91,12 @@ function CircularIndeterminate() {
     );
 }
 
-function whatShouldBeRendered(status, data) {
+function whatShouldBeRendered(status: string, data: ICoffee) {
     switch (status) {
         case 'loading':
             return <CircularIndeterminate></CircularIndeterminate>;
 
         case 'norm':
-            console.log(data);
             return <FullCoffeeCard {...data}></FullCoffeeCard>;
         case 'error':
             return (
@@ -96,6 +104,7 @@ function whatShouldBeRendered(status, data) {
                     <Alert variant="outlined" severity="error">
                         К сожалению мы не смогли загрузить кофе
                     </Alert>
+
                     <Link style={{ textDecoration: 'none' }} to="/">
                         <Button sx={{ marginTop: '20px' }} variant="outlined">
                             Вернуться назад
@@ -103,5 +112,9 @@ function whatShouldBeRendered(status, data) {
                     </Link>
                 </>
             );
+        default:
+            return <></>;
     }
 }
+
+export default FullCoffee;

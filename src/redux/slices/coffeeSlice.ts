@@ -1,14 +1,21 @@
 import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/toolkit';
 import { useHttp } from '../../hooks/http.hook';
 
-const initialState = {
+import { ICoffee } from '../../@types/in';
+
+interface ICoffeeSliceState {
+    coffees: ICoffee[];
+    coffeesLoadingStatus: "loading" | "error" | "norm"
+}
+
+const initialState: ICoffeeSliceState = {
     coffees: [],
     coffeesLoadingStatus: 'loading',
 };
 
-export const fetchCoffees = createAsyncThunk('coffees/fetchCoffees', (adress) => {
+export const fetchCoffees = createAsyncThunk<ICoffee[] | ICoffee, string>('coffees/fetchCoffees', (adress) => {
     const { request } = useHttp();
-    return request(adress);
+    return request<ICoffee[] | ICoffee>(adress);
 });
 
 const coffeesSlice = createSlice({

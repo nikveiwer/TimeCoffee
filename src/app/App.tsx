@@ -1,4 +1,6 @@
-import Header from '../header/header';
+import React from 'react'
+
+import Header from '../components/header/header';
 import MainPage from '../pages/MainPage';
 import Cart from '../pages/Cart';
 import FullCoffee from '../pages/FullCoffee';

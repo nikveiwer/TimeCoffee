@@ -1,13 +1,11 @@
-import Categories from '../categories/categories';
-import Sort from '../sort/sort';
-import CoffeeCard from '../coffeeCard/coffeeCard';
-import CoffeeList from '../coffeeList/coffeeList';
-import Search from '../../search/search';
-import FullCoffee from './FullCoffee';
+import Categories from '../components/categories/categories';
+import Sort from '../components/sort/sort';
+import CoffeeList from '../components/coffeeList/coffeeList';
+import Search from '../components/search/search';
 
 import Grid2 from '@mui/material/Unstable_Grid2';
 
-const MainPage = () => {
+const MainPage: React.FC  = () => {
     return (
         <>
             <Grid2 container sx={{ justifyContent: 'space-between' }}>

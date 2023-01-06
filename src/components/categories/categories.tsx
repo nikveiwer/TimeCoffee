@@ -1,51 +1,61 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { categoryChanged } from '../coffeeList/filtersSlice';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../../redux/initStore';
+import { categoryChanged } from '../../redux/slices/filtersSlice';
 
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 
-function a11yProps(index) {
+import { RootState } from '../../redux/initStore';
+import { CategoriesValues } from '../../@types/in';
+
+
+interface ICategories {
+    value: CategoriesValues,
+    label: string,
+}
+
+function a11yProps(index: string) {
     return {
         id: `simple-tab-${index}`,
         'aria-controls': `simple-tabpanel-${index}`,
     };
 }
 
-const Categories = () => {
+const Categories: React.FC  = () => {
     console.log('categories');
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
-    const category = useSelector((state) => state.filters.category);
+    const category = useSelector((state: RootState) => state.filters.category);
 
-    const categories = [
+    const categories: ICategories[] = [
         {
-            value: 'all',
+            value: CategoriesValues.ALL,
             label: 'Все',
         },
         {
-            value: 'capp',
+            value: CategoriesValues.CAPP,
             label: 'Капучино',
         },
         {
-            value: 'es',
+            value: CategoriesValues.ES,
             label: 'Эспрессо',
         },
         {
-            value: 'moc',
+            value: CategoriesValues.MOC,
             label: 'Мокко',
         },
         {
-            value: 'am',
+            value: CategoriesValues.AM,
             label: 'Американо',
         },
         {
-            value: 'raf',
+            value: CategoriesValues.RAF,
             label: 'Раф',
         },
     ];
 
-    const handleChange = (event, newValue) => {
+    const handleChange = (event: React.SyntheticEvent<Element, Event>, newValue: CategoriesValues) => {
         dispatch(categoryChanged(newValue));
     };
 
