@@ -6,12 +6,14 @@ interface IBasketSliceState {
     basketCoffees: IBasketCoffee[];
     totalSum: number;
     totalCount: number;
+    confirmation: boolean;
 }
 
 const initialState: IBasketSliceState = {
     basketCoffees: [],
     totalSum: 0,
     totalCount: 0,
+    confirmation: false,
 };
 
 const basketSlice = createSlice({
@@ -77,6 +79,9 @@ const basketSlice = createSlice({
             state.totalSum = persistedBasket.totalSum;
             state.totalCount = persistedBasket.totalCount;
         },
+        confirmationToggle: (state) => {
+            state.confirmation = !state.confirmation;
+        },
     },
 });
 
@@ -84,5 +89,11 @@ const { actions, reducer } = basketSlice;
 
 export default reducer;
 
-export const { pushCoffee, deleteWholeCoffee, decreaseCoffee, cleanBasket, storageBasket } =
-    actions;
+export const {
+    pushCoffee,
+    deleteWholeCoffee,
+    decreaseCoffee,
+    cleanBasket,
+    storageBasket,
+    confirmationToggle,
+} = actions;

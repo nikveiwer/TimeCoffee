@@ -17,8 +17,9 @@ import Alert from '@mui/material/Alert';
 import { ICoffee } from '../../@types/in';
 import { RootState } from '../../redux/initStore';
 import { IFiltersSliceState } from '../../redux/slices/filtersSlice';
+import { CategoriesValues } from '../../@types/in';
 
-const CoffeeList: React.FC  = () => {
+const CoffeeList: React.FC = () => {
     console.log('CoffeeList');
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -26,32 +27,43 @@ const CoffeeList: React.FC  = () => {
     const isSearch = useRef(false);
     const isMounted = useRef(false);
 
-    const coffeesLoadingStatus = useSelector((state: RootState) => state.coffees.coffeesLoadingStatus);
+    const coffeesLoadingStatus = useSelector(
+        (state: RootState) => state.coffees.coffeesLoadingStatus,
+    );
     const category = useSelector((state: RootState) => state.filters.category);
     const sort = useSelector((state: RootState) => state.filters.sort);
     const search = useSelector((state: RootState) => state.filters.search);
     const foundedCoffeesSelector = createSelector(
         (state: RootState) => state.coffees.coffees,
         (coffees) => {
-            return search ? coffees.filter(
-                (item) => item.name.toLocaleLowerCase().includes(search.toLocaleLowerCase()),
-            ) : coffees;
+            return search
+                ? coffees.filter((item) =>
+                      item.name.toLocaleLowerCase().includes(search.toLocaleLowerCase()),
+                  )
+                : coffees;
         },
     );
     const foundedCoffees = useSelector(foundedCoffeesSelector);
 
     useEffect(() => {
         if (window.location.search) {
-            const params = qs.parse(window.location.search.substring(1)) as unknown as IFiltersSliceState;
+            const params = qs.parse(
+                window.location.search.substring(1),
+            ) as unknown as IFiltersSliceState;
+
+            isSearch.current = true;
+
+            if (params.category == CategoriesValues.ALL && params.sort == 'raiting desc') {
+                reqCoffees();
+                return;
+            }
 
             dispatch(linkMemo(params));
-            isSearch.current = true;
         }
     }, []);
 
     const reqCoffees = () => {
         const reqCategory = category === 'all' ? '' : `category=${category}`;
-        // const reqSearch = search ? `search=${search}` : '';
         const reqSortBy = sort.split(' ')[0];
         const reqSortOrder = sort.split(' ')[1];
         dispatch(
@@ -80,8 +92,6 @@ const CoffeeList: React.FC  = () => {
         }
         isMounted.current = true;
     }, [category, sort]);
-
-
 
     return (
         <Grid2 sx={{ justifyContent: 'center' }} container spacing={2}>
@@ -118,7 +128,7 @@ const whatShouldBeRendered = (status: string, data: ICoffee[]) => {
     }
 };
 
-const ViewSceleton: React.FC  = () => {
+const ViewSceleton: React.FC = () => {
     return (
         <Stack spacing={1}>
             <Skeleton variant="rectangular" width={320} height={200} />

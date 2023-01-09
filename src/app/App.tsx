@@ -1,13 +1,15 @@
-import React from 'react'
+import React, { Suspense } from 'react';
 
 import Header from '../components/header/header';
 import MainPage from '../pages/MainPage';
-import Cart from '../pages/Cart';
 import FullCoffee from '../pages/FullCoffee';
+import NotFound from '../pages/NotFound';
 
-import { Container } from '@mui/material';
+import { CircularProgress, Container } from '@mui/material';
 
 import { Routes, Route } from 'react-router-dom';
+
+const Cart = React.lazy(() => import('../pages/Cart'));
 
 function App() {
     console.log('App');
@@ -21,8 +23,15 @@ function App() {
                 }}>
                 <Routes>
                     <Route path="/" element={<MainPage />}></Route>
-                    <Route path="/cart" element={<Cart />}></Route>
+                    <Route
+                        path="/cart"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <Cart />
+                            </Suspense>
+                        }></Route>
                     <Route path="/full/:coffeeId" element={<FullCoffee />}></Route>
+                    <Route path="*" element={<NotFound />}></Route>
                 </Routes>
             </Container>
         </>

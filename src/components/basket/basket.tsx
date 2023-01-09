@@ -1,7 +1,8 @@
-import { useEffect, useRef } from 'react';
+import { useState } from 'react';
+import DialogModal from '../dialogModal/dialogModal';
+
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../redux/initStore';
-import { createSelector } from '@reduxjs/toolkit';
 
 import { cleanBasket } from '../../redux/slices/basketSlice';
 
@@ -69,11 +70,11 @@ const ViewEmptyBasket: React.FC = () => {
                 color="disabled"
                 sx={{ width: '150px', height: '150px', marginTop: '40px' }}></CoffeeIcon>
 
-            <Link style={{ textDecoration: 'none' }} to="/">
-                <Button sx={{ marginTop: '20px' }} variant="contained">
+            <Button sx={{ marginTop: '20px' }} variant="contained">
+                <Link style={{ color: 'inherit', textDecoration: 'none' }} to="/">
                     Вернуться назад
-                </Button>
-            </Link>
+                </Link>
+            </Button>
         </Container>
     );
 };
@@ -83,142 +84,105 @@ const ViewFullBasket: React.FC = () => {
 
     const dispatch = useAppDispatch();
 
+    const [open, setOpen] = useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     return (
-        <Container maxWidth={'md'}>
-            {/* <Box
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                }}>
-                <Box
-                    sx={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                    }}>
-                    <ShoppingBasketIcon sx={{ width: 60, height: 60 }} />
-                    <Typography
-                        // color={'#1976d2'}
-                        ml={1}
-                        fontSize={'25px'}
-                        variant="h6"
-                        component="h2">
-                        Корзина
-                    </Typography>
-                </Box>
-
-                <Box paddingTop={'20px'}>
-                    <Button
-                        onClick={() => dispatch(cleanBasket())}
-                        endIcon={<DeleteIcon color={'primary'}></DeleteIcon>}
-                        size="small">
-                        Очистить корзину
-                    </Button>
-                </Box>
-            </Box> */}
-
-            <Grid2 container sx={{ justifyContent: 'space-between' }}>
-                <Grid2 xs={12} sm={7} md={7} lg={9}>
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            maxWidth: '170px',
-                        }}>
-                        <ShoppingBasketIcon sx={{ width: 60, height: 60 }} />
-                        <Typography
-                            // color={'#1976d2'}
-                            ml={1}
-                            fontSize={'25px'}
-                            variant="h6"
-                            component="h2">
-                            Корзина
-                        </Typography>
-                    </Box>
-                </Grid2>
-                <Grid2 xs={12} sm={5} md={5} lg={3}>
-                    <Box paddingTop={'20px'}>
-                        <Button
-                            onClick={() => dispatch(cleanBasket())}
-                            endIcon={<DeleteIcon color={'primary'}></DeleteIcon>}
-                            size="small">
-                            Очистить корзину
-                        </Button>
-                    </Box>
-                </Grid2>
-            </Grid2>
-
-            <Stack mt={'70px'} spacing={2}>
-                {basketCoffees.map((coffee: IBasketCoffee) => {
-                    return <BsaketCard key={uuidv4()} {...coffee}></BsaketCard>;
-                })}
-            </Stack>
-            {/* 
-            <Box
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    marginTop: '40px',
-                }}>
-                <Box>
-                    <Typography color={'grey'} ml={1} fontSize={'17px'} variant="h6" component="h2">
-                        Всего кофе заказано: <span style={{ color: 'black' }}>{totalCount}шт.</span>
-                    </Typography>
-                    <Link style={{ textDecoration: 'none' }} to="/">
-                        <Button sx={{ marginTop: '20px' }} variant="outlined">
-                            Вернуться назад
-                        </Button>
-                    </Link>
-                </Box>
-
-                <Box>
-                    <Typography color={'grey'} ml={1} fontSize={'17px'} variant="h6" component="h2">
-                        Общая сумма: <span style={{ color: '#1976d2' }}>{totalSum}р.</span>
-                    </Typography>
-                    <Button sx={{ marginTop: '20px' }} variant="contained">
-                        Оплатить заказ
-                    </Button>
-                </Box>
-            </Box> */}
-
-            <Grid2 container sx={{ justifyContent: 'space-between' }}>
-                <Grid2 mt={'50px'} xs={12} sm={7} md={9} lg={9}>
-                    <Box>
-                        <Typography
-                            color={'grey'}
-                            ml={1}
-                            fontSize={'17px'}
-                            variant="h6"
-                            component="h2">
-                            Всего кофе заказано:{' '}
-                            <span style={{ color: 'black' }}>{totalCount}шт.</span>
-                        </Typography>
-                        <Link style={{ textDecoration: 'none' }} to="/">
-                            <Button sx={{ marginTop: '20px' }} variant="outlined">
-                                Вернуться назад
+        <>
+            <Container maxWidth={'md'}>
+                <Grid2 container sx={{ justifyContent: 'space-between' }}>
+                    <Grid2 xs={12} sm={7} md={7} lg={9}>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                                maxWidth: '170px',
+                            }}>
+                            <ShoppingBasketIcon sx={{ width: 60, height: 60 }} />
+                            <Typography
+                                // color={'#1976d2'}
+                                ml={1}
+                                fontSize={'25px'}
+                                variant="h6"
+                                component="h2">
+                                Корзина
+                            </Typography>
+                        </Box>
+                    </Grid2>
+                    <Grid2 xs={12} sm={5} md={5} lg={3}>
+                        <Box paddingTop={'20px'}>
+                            <Button
+                                onClick={() => dispatch(cleanBasket())}
+                                endIcon={<DeleteIcon color={'primary'}></DeleteIcon>}
+                                size="small">
+                                Очистить корзину
                             </Button>
-                        </Link>
-                    </Box>
+                        </Box>
+                    </Grid2>
                 </Grid2>
-                <Grid2 mt={'50px'} xs={12} sm={5} md={3} lg={3}>
-                    <Box>
-                        <Typography
-                            color={'grey'}
-                            ml={1}
-                            fontSize={'17px'}
-                            variant="h6"
-                            component="h2">
-                            Общая сумма: <span style={{ color: '#1976d2' }}>{totalSum}р.</span>
-                        </Typography>
-                        <Button sx={{ marginTop: '20px' }} variant="contained">
-                            Оплатить заказ
-                        </Button>
-                    </Box>
+
+                <Stack mt={'70px'} spacing={2}>
+                    {basketCoffees.map((coffee: IBasketCoffee) => {
+                        return <BsaketCard key={uuidv4()} {...coffee}></BsaketCard>;
+                    })}
+                </Stack>
+
+                <Grid2 container sx={{ justifyContent: 'space-between' }}>
+                    <Grid2 mt={'50px'} xs={12} sm={7} md={9} lg={9}>
+                        <Box>
+                            <Typography
+                                color={'grey'}
+                                ml={1}
+                                fontSize={'17px'}
+                                variant="h6"
+                                component="h2">
+                                Всего кофе заказано:{' '}
+                                <span style={{ color: 'black' }}>{totalCount}шт.</span>
+                            </Typography>
+
+                            <Button sx={{ marginTop: '20px' }} variant="outlined">
+                                <Link style={{ color: 'inherit', textDecoration: 'none' }} to="/">
+                                    Вернуться назад
+                                </Link>
+                            </Button>
+                        </Box>
+                    </Grid2>
+                    <Grid2 mt={'50px'} xs={12} sm={5} md={3} lg={3}>
+                        <Box>
+                            <Typography
+                                color={'grey'}
+                                ml={1}
+                                fontSize={'17px'}
+                                variant="h6"
+                                component="h2">
+                                Общая сумма: <span style={{ color: '#1976d2' }}>{totalSum}р.</span>
+                            </Typography>
+                            <Button
+                                onClick={handleClickOpen}
+                                sx={{ marginTop: '20px' }}
+                                variant="contained">
+                                Подтвердить заказ
+                            </Button>
+                        </Box>
+                    </Grid2>
                 </Grid2>
-            </Grid2>
-        </Container>
+            </Container>
+
+            <DialogModal
+                open={open}
+                handleClose={handleClose}
+                basketCoffees={basketCoffees}
+                totalSum={totalSum}
+            />
+        </>
     );
 };
 
